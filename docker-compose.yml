@@ -1,0 +1,57 @@
+version: "3.9"
+
+volumes:
+  zabbix_mysql_data:
+  zabbix_web_data:
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: zabbix-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass      # Mot de passe root
+      MYSQL_DATABASE: zabbix             # Base Zabbix
+      MYSQL_USER: zabbix                 # Utilisateur Zabbix
+      MYSQL_PASSWORD: zabbixpass         # Mot de passe utilisateur
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --log-bin-trust-function-creators=1
+    ports:
+      - "3306:3306"
+    volumes:
+      - zabbix_mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:ubuntu-latest
+    container_name: zabbix-server
+    environment:
+      DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbixpass
+    depends_on:
+      - mysql
+    ports:
+      - "10051:10051"
+    restart: unless-stopped
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-latest
+    container_name: zabbix-web
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbixpass
+      PHP_TZ: "Europe/Paris"      # À adapter selon ton fuseau horaire
+    depends_on:
+      - zabbix-server
+      - mysql
+    ports:
+      - "80:8080"      # Web UI HTTP
+      - "8443:8443"    # Web UI HTTPS
+    restart: unless-stopped
+    volumes:
+      - zabbix_web_data:/var/lib/zabbix
