@@ -14,13 +14,15 @@ La solution permet de :
 ## 2. Architecture du projet
 
 ### 2.1 Infrastructure AWS
-- **VPC** : Youssouf-VPC-Zabbix  
-- **Subnet public** : Youssouf-Subnet-Public  
-- **Security Group** : Youssouf-SG-Zabbix  
+![Architecture AWS](diagrams/architecture.png)
+
+- **VPC** : Youssouf-VPC-Zabbix
+- **Subnet public** : Youssouf-Subnet-Public
+- **Security Group** : Youssouf-SG-Zabbix
 - **Instances EC2** :
-  - Serveur Zabbix (Ubuntu 22.04, t3.medium)  
-  - Client Linux (Ubuntu 22.04, t3.medium)  
-  - Client Windows (Windows Server, t3.medium)  
+  - Serveur Zabbix (Ubuntu 22.04, t3.medium)
+  - Client Linux (Ubuntu 22.04, t3.medium)
+  - Client Windows (Windows Server, t3.medium)
 - **Ports ouverts** :
   | Port | Protocole | Usage |
   |------|-----------|-------|
@@ -118,6 +120,8 @@ Vérifier que les statuts passent à Available et que les métriques remontent c
 ---
 
 ## 5. Supervision et dashboards
+
+![Dashboard Zabbix](diagrams/dashboard.png)
 
 Les métriques collectées incluent : CPU, RAM, espace disque, charge système et disponibilité réseau
 
