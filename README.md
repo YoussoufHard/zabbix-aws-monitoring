@@ -178,14 +178,7 @@ Utilisation des dashboards pour centraliser les métriques et alertes
 
 ---
 
-## 9. Dépôt GitHub
-
-Le dépôt GitHub contenant Docker Compose, configurations, scripts et documentation est disponible ici :
-https://github.com/username/zabbix-aws-monitoring
-
----
-
-## 10. Structure du dépôt
+## 9. Structure du dépôt
 ```
 zabbix-aws-monitoring/
 │
